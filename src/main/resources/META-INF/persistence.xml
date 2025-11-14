@@ -4,6 +4,7 @@
         <jta-data-source>java:/jdbc/BookStoreDb</jta-data-source>
         <class>com.example.bookstoreapp.repository.entity.BookEntity</class>
         <class>com.example.bookstoreapp.repository.entity.AuditEntity</class>
+
     </persistence-unit>
 
 </persistence>

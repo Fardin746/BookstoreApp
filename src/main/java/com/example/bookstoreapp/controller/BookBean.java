@@ -1,10 +1,8 @@
 package com.example.bookstoreapp.controller;
 
 
-import com.example.bookstoreapp.exception.BookServiceException;
 import com.example.bookstoreapp.model.Book;
 import com.example.bookstoreapp.service.BookService;
-
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -17,8 +15,8 @@ public class BookBean {
 
     private String header = "";
     private boolean editMode;
-    private Book newBook;
-    private String message;
+    private Book newBook = new Book();
+
 
     @EJB
     private BookService service;
@@ -51,66 +49,36 @@ public class BookBean {
         this.newBook = newBook;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-
     public List<Book> getBooks() {
-        try {
-            return service.getBooks();
-        }catch (BookServiceException e){
-            message = e.getMessage();
-           return null;
-        }
+        return service.getBooks();
     }
+
 
     public String addBook() {
-        try {
-            header = "Add Book";
-            service.addBook(newBook);
-            newBook = new Book();
-            editMode = false;
-            message = null; // clear old error
-            return "bookList.xhtml?faces-redirect=true";
-        } catch (BookServiceException e) {
-            message = e.getMessage();
-            return null;
-        }
+        header = "Add Book";
+        service.addBook(newBook);
+        newBook = new Book();
+        editMode = false;
+        return "bookList.xhtml?faces-redirect=true";
     }
 
     public String editBook(Book book) {
         newBook = book;
         editMode = true;
-        message = null;
         header = "Edit Book";
         return "addBook.xhtml?faces-redirect=true";
     }
 
     public String updateBook() {
-        try {
-            service.editBook(newBook);
-            message = null;
-            return "bookList.xhtml?faces-redirect=true";
-        } catch (BookServiceException e) {
-            message = e.getMessage();
-            editMode = true;
-            return null;
-        }
+        header = "Edit Book";
+        editMode = false;
+        service.editBook(newBook);
+        return "bookList.xhtml?faces-redirect=true";
     }
 
     public String deleteBook(int id) {
-        try {
-            service.deleteBook(id);
-            return null;
-        } catch (BookServiceException e) {
-            message = e.getMessage();
-            return null;
-        }
+        service.deleteBook(id);
+        return null;
     }
 
 
@@ -119,17 +87,14 @@ public class BookBean {
         header = "Add Book";
         editMode = false;
         newBook = new Book();
-        message = null;
         return "addBook.xhtml?faces-redirect=true";
     }
 
 
     // for go to the book list page
     public String BookListPage() {
-        message = null;
         return "bookList.xhtml?faces-redirect=true";
     }
 
 
 }
-

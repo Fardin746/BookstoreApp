@@ -1,5 +1,5 @@
 package com.example.bookstoreapp.model;
 
 public enum BookAction {
-    INSERT, UPDATE, DELETE
+    INSERT_BOOK, UPDATE_BOOK, DELETE_BOOK
 }

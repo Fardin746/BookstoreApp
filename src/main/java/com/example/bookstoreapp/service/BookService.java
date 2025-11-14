@@ -1,18 +1,18 @@
 package com.example.bookstoreapp.service;
 
-import com.example.bookstoreapp.exception.BookServiceException;
 import com.example.bookstoreapp.model.Book;
+
 import javax.ejb.Local;
 import java.util.List;
 
 @Local
 public interface BookService {
 
-    void addBook(Book book) throws BookServiceException;
+    void addBook(Book book);
 
-    List<Book> getBooks() throws BookServiceException;
+    List<Book> getBooks();
 
-    void deleteBook(int id) throws BookServiceException;
+    void deleteBook(int id);
 
-    void editBook(Book book) throws BookServiceException;
+    void editBook(Book book);
 }
