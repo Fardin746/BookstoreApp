@@ -1,20 +1,67 @@
 package com.example.bookstoreapp.repository;
 
-import com.example.bookstoreapp.exception.BookRepositoryException;
 import com.example.bookstoreapp.model.Book;
-import javax.ejb.Local;
+import com.example.bookstoreapp.repository.entity.AuditEntity;
+import com.example.bookstoreapp.repository.entity.BookEntity;
+import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Local
-public interface BookRepository {
 
-    void create(Book book) throws BookRepositoryException;
+public class BookRepository {
 
-    List<Book> getAllBooks() throws BookRepositoryException;
 
-    void update(Book book) throws BookRepositoryException;
 
-    void delete(int id)throws BookRepositoryException;
+    public void createAudit(EntityManager entityManager, Integer bookId, String auditType) {
+        AuditEntity auditEntity = new AuditEntity();
+        auditEntity.setBookId(bookId);
+        auditEntity.setAuditType(auditType);
+        auditEntity.setAuditDate(LocalDateTime.now());
+        entityManager.persist(auditEntity);
+    }
+
+
+
+    public List<Book> getAllBook(EntityManager entityManager){
+        return entityManager
+                .createQuery("SELECT b FROM BookEntity b WHERE b.deleted = false ",BookEntity.class)
+                .getResultList().stream().map(BookEntity::toBook).collect(Collectors.toList());
+
+    }
+
+
+
+
+    public void delete(EntityManager entityManager,Integer id){
+        BookEntity bookEntity = entityManager.find(BookEntity.class,id);
+        if (bookEntity != null){
+            bookEntity.setDeleted(true);
+            entityManager.merge(bookEntity);
+        }
+    }
+
+
+
+
+    public void create(EntityManager entityManager, Book book) {
+        BookEntity bookEntity = new BookEntity(book);
+        entityManager.persist(bookEntity);
+        book.setId(bookEntity.getId());
+    }
+
+
+    public void update(EntityManager entityManager, Book book) {
+        BookEntity bookEntity = entityManager.find(BookEntity.class, book.getId());
+        if (bookEntity != null) {
+            bookEntity.setName(book.getName());
+            bookEntity.setTitle(book.getTitle());
+            bookEntity.setDescription(book.getDescription());
+            bookEntity.setPrice(book.getPrice());
+            bookEntity.setType(book.getType());
+            entityManager.merge(bookEntity);
+        }
+    }
 
 
 }
