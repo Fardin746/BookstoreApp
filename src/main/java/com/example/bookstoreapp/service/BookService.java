@@ -1,18 +1,40 @@
 package com.example.bookstoreapp.service;
 
-import com.example.bookstoreapp.exception.BookServiceException;
 import com.example.bookstoreapp.model.Book;
-import javax.ejb.Local;
+import com.example.bookstoreapp.repository.BookRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 
-@Local
-public interface BookService {
+public class BookService  {
 
-    void addBook(Book book) throws BookServiceException;
+    private final BookRepository bookRepository = new BookRepository();
 
-    List<Book> getBooks() throws BookServiceException;
+   public List<Book> getBooks() {
+        return new ArrayList<>(bookRepository.ReadBook().values());
+   }
 
-    void deleteBook(int id) throws BookServiceException;
+    public void addBook(Book book) {
+        bookRepository.create(book);  //id assign inside
+    }
 
-    void editBook(Book book) throws BookServiceException;
+//    public void addBookOrEditBook(Book book) {
+//        if (book.getId() == 0) {
+//            bookRepository.create(book); // assigns ID inside
+//        } else {
+//            bookRepository.update(book.getId(), book);
+//        }
+//    }
+
+    public void deleteBook(int id) {
+        bookRepository.delete(id);
+
+    }
+
+    public void editBook(Book book) {
+        bookRepository.update(book);
+
+    }
+
+
 }

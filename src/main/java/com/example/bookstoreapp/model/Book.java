@@ -11,7 +11,9 @@ public class Book {
     private String type;
 
 
-    public  Book() {}
+
+
+    public Book() {}
 
     public Book(int id, String name, String title, String description, double price, String type) {
         this.id = id;
@@ -68,15 +70,5 @@ public class Book {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", type='" + type + '\'' +
-                '}';
-    }
+
 }

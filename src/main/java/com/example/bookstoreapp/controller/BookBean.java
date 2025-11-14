@@ -1,13 +1,12 @@
 package com.example.bookstoreapp.controller;
 
 
-import com.example.bookstoreapp.exception.BookServiceException;
 import com.example.bookstoreapp.model.Book;
 import com.example.bookstoreapp.service.BookService;
 
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,33 +14,10 @@ import java.util.List;
 @SessionScoped
 public class BookBean {
 
-    private String header = "";
-    private boolean editMode;
-    private Book newBook;
-    private String message;
 
-    @EJB
-    private BookService service;
+    private final BookService service = new BookService();
+    private Book newBook = new Book();
 
-    public boolean getEditMode() {
-        return editMode;
-    }
-
-    public boolean isEditMode() {
-        return editMode;
-    }
-
-    public void setEditMode(boolean editMode) {
-        this.editMode = editMode;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
 
     public Book getNewBook() {
         return newBook;
@@ -51,85 +27,61 @@ public class BookBean {
         this.newBook = newBook;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
 
     public List<Book> getBooks() {
-        try {
-            return service.getBooks();
-        }catch (BookServiceException e){
-            message = e.getMessage();
-           return null;
-        }
+        return new ArrayList<>(service.getBooks());
     }
+
+//    public String addBook() {
+//        service.addBook(newBook);
+//        newBook = new Book();
+//        return "BookList.xhtml?faces-redirect=true";
+//    }
 
     public String addBook() {
-        try {
-            header = "Add Book";
-            service.addBook(newBook);
-            newBook = new Book();
-            editMode = false;
-            message = null; // clear old error
-            return "bookList.xhtml?faces-redirect=true";
-        } catch (BookServiceException e) {
-            message = e.getMessage();
-            return null;
+        if (newBook.getId() == 0) {
+            service.addBook(newBook); // add new
+        } else {
+            service.editBook(newBook); // edit existing
         }
+        newBook = new Book(); // reset
+        return "BookList.xhtml?faces-redirect=true";
     }
+
 
     public String editBook(Book book) {
-        newBook = book;
-        editMode = true;
-        message = null;
-        header = "Edit Book";
-        return "addBook.xhtml?faces-redirect=true";
+        // Fill a newBook with selected book values
+
+        newBook = new Book(
+                book.getId(),
+                book.getName(),
+                book.getTitle(),
+                book.getDescription(),
+                book.getPrice(),
+                book.getType()
+        );
+        return "AddBook.xhtml?faces-redirect=true";
     }
 
-    public String updateBook() {
-        try {
-            service.editBook(newBook);
-            message = null;
-            return "bookList.xhtml?faces-redirect=true";
-        } catch (BookServiceException e) {
-            message = e.getMessage();
-            editMode = true;
-            return null;
-        }
+
+    public String  deleteBook(int id) {
+        service.deleteBook(id);
+//        return "BookList.xhtml?faces-redirect=true";
+        return null;
     }
 
-    public String deleteBook(int id) {
-        try {
-            service.deleteBook(id);
-            return null;
-        } catch (BookServiceException e) {
-            message = e.getMessage();
-            return null;
-        }
-    }
+
 
 
     // for go to add a book page
     public String addBookPage() {
-        header = "Add Book";
-        editMode = false;
-        newBook = new Book();
-        message = null;
-        return "addBook.xhtml?faces-redirect=true";
+        return "AddBook?faces-redirect=true";
     }
 
 
     // for go to the book list page
     public String BookListPage() {
-        message = null;
-        return "bookList.xhtml?faces-redirect=true";
+        return "BookList?faces-redirect=true";
     }
 
-
 }
-
