@@ -27,6 +27,7 @@
         <h:form>
             <h:commandButton value="Add New Book" action="#{bookBean.addBookPage()}" styleClass="btn btn-success mb-3"/>
 
+
             <h:dataTable value="#{bookBean.getBooks()}" var="book" styleClass="table table-bordered  border-success">
                 <h:column>
                     <f:facet name="header">ISBN</f:facet>
@@ -55,10 +56,11 @@
 
                 <h:column>
                     <f:facet name="header">Actions</f:facet>
+
                     <h:commandButton value="Edit" action="#{bookBean.editBook(book)}"
                                      styleClass="btn btn-outline-primary me-2  "/>
                     <h:commandButton value="Delete" action="#{bookBean.deleteBook(book.id)}"
-                                     styleClass="btn btn-outline-danger me-2"/>
+                                     styleClass="btn btn-outline-danger "/>
 
                 </h:column>
             </h:dataTable>

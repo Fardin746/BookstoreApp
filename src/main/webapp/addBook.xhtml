@@ -25,41 +25,32 @@
     <div class="container mt-5">
         <h2><h:outputLabel value="#{bookBean.header}"/></h2>
 
-        <h:panelGroup rendered="#{not empty bookBean.message}">
-            <div class="alert alert-danger">
-                #{bookBean.message}
-            </div>
-        </h:panelGroup>
-
-        <h:form styleClass="container">
-
-            <div class="mb-3  ">
+        <h:form>
+            <!--            <h:inputHidden value="#{bookBean.newBook.id}" />-->
+            <div class="mb-3">
                 <h:outputLabel for="name" value="Name : "/>
                 <h:inputText id="name" value="#{bookBean.newBook.name}" styleClass="form-control" required="true"
-                             placeholder="Enter the book name"
-                             requiredMessage="Name cannot be empty"/>
-
+                             placeholder="Enter the book name" requiredMessage="Enter the Book name"
+                             validatorMessage="Enter the Book name"/>
                 <h:message for="name" styleClass="text-danger"/>
-
             </div>
             <div class="mb-3">
                 <h:outputLabel for="title" value="Title : "/>
                 <h:inputText id="title" value="#{bookBean.newBook.title}" styleClass="form-control" required="true"
-                             requiredMessage="Title cannot be empty" validatorMessage="Title required"/>
-
+                             requiredMessage="Title required" validatorMessage="Title required"/>
                 <h:message for="title" styleClass="text-danger"/>
             </div>
             <div class="mb-3">
                 <h:outputLabel for="description" value="Description : "/>
                 <h:inputText id="description" value="#{bookBean.newBook.description}" styleClass="form-control"
-                             required="true" requiredMessage="Description cannot be empty"
-                             validatorMessage="Description cannot be empty"/>
+                             required="true" requiredMessage="Description required"
+                             validatorMessage="Description required"/>
                 <h:message for="description" styleClass="text-danger"/>
             </div>
             <div class="mb-3">
                 <h:outputLabel for="price" value="Price : "/>
                 <h:inputText id="price" value="#{bookBean.newBook.price}" styleClass="form-control"
-                             required="true" requiredMessage="Price required" validatorMessage="price required"/>
+                             required="true"  requiredMessage="price required" validatorMessage="price required"/>
                 <h:message for="price" styleClass="text-danger"/>
             </div>
 
@@ -84,11 +75,11 @@
             <h:commandButton value="Add Book" action="#{bookBean.addBook()}" rendered="#{!bookBean.editMode}"
                              styleClass="btn btn-success  btn-lg"/>
             <h:commandButton value="update Book" action="#{bookBean.updateBook()}" rendered="#{bookBean.editMode}"
-                             styleClass="btn btn-primary  text-white btn-lg"/>
+                             styleClass="btn btn-primary text-white btn-lg"/>
 
 
             <h:commandButton value="Back to Book List" immediate="true" action="#{bookBean.BookListPage()}"
-                             styleClass="btn btn-secondary ms-2  btn-lg"/>
+                             styleClass="btn btn-secondary ms-2 btn-lg"/>
         </h:form>
     </div>
 

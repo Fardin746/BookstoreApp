@@ -1,4 +1,7 @@
 package com.example.bookstoreapp.repository.entity;
+
+import com.example.bookstoreapp.model.Book;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,27 +11,45 @@ public class BookEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(name = "name", nullable = false)
+    @Column(name = "name" ,nullable = false)
     private String name;
-    @Column(name = "title", nullable = false)
+    @Column(name = "title" ,nullable = false)
     private String title;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description",nullable = false)
     private String description;
-    @Column(name = "price", nullable = false)
+    @Column(name = "price",nullable = false)
     private Double price;
-    @Column(name = "book_type", nullable = false)
+    @Column(name = "type",nullable = false)
     private String type;
-    @Column(name = "deleted", nullable = false)
+    @Column(name = "deleted",nullable = false)
     private Boolean deleted = false;
+
 
 
     public BookEntity() {
     }
 
+
+    public BookEntity(Book book){
+        this.name = book.getName();
+        this.title = book.getTitle();
+        this.description = book.getDescription();
+        this.price = book.getPrice();
+        this.type = book.getType();
+    }
+
+    public Book toBook(){
+        return new Book(id,name,title,description,price,type);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public int getId() {
         return id;
     }
+
+
 
     public String getName() {
         return name;
@@ -68,6 +89,10 @@ public class BookEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
     }
 
     public void setDeleted(Boolean deleted) {
