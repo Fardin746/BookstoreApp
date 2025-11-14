@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+    <persistence-unit name="BookStore_db" transaction-type="JTA">
+        <jta-data-source>java:/jdbc/BookStoreDb</jta-data-source>
+        <class>com.example.bookstoreapp.repository.entity.BookEntity</class>
+        <class>com.example.bookstoreapp.repository.entity.AuditEntity</class>
+    </persistence-unit>
+
+</persistence>
