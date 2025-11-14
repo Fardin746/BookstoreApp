@@ -68,15 +68,5 @@ public class Book {
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", type='" + type + '\'' +
-                '}';
-    }
+
 }
