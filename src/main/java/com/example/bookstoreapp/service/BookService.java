@@ -1,18 +1,38 @@
 package com.example.bookstoreapp.service;
 
-import com.example.bookstoreapp.exception.BookServiceException;
 import com.example.bookstoreapp.model.Book;
-import javax.ejb.Local;
+import com.example.bookstoreapp.repository.BookRepository;
+import java.io.Serializable;
 import java.util.List;
 
-@Local
-public interface BookService {
+public class BookService implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    void addBook(Book book) throws BookServiceException;
+    private final BookRepository bookRepository = new BookRepository();
 
-    List<Book> getBooks() throws BookServiceException;
 
-    void deleteBook(int id) throws BookServiceException;
+    public List<Book> getBooks() {
+        return bookRepository.getBooks();
 
-    void editBook(Book book) throws BookServiceException;
+    }
+
+    public void addBook(Book book) {
+        book.setId(bookRepository.generateId());
+        bookRepository.create(book);
+        System.out.println(book);
+
+    }
+
+    public void deleteBook(Book book) {
+        bookRepository.delete(book);
+        System.out.println("Deleted book: " + book.getId());
+    }
+
+    public void editBook(Book book) {
+        bookRepository.edit(book);
+        System.out.println(book);
+        System.out.println("Edited book: " + book.getId());
+    }
+
+
 }
